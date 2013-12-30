@@ -21,6 +21,10 @@ void SpritePlus::setFrameSize(sf::Vector2i size)
 {
 	setFrameSize(size.x, size.y);
 }
+void SpritePlus::setFrameSize(sf::Vector2f size)
+{
+	setFrameSize(size.x, size.y);
+}
 void SpritePlus::setFrame(sf::Vector2f position)
 {
 	setFrame(position.x, position.y);

@@ -30,16 +30,6 @@ void Piece::setPositionOnBoard(sf::Vector2i position)
 	setPosition(float(position.x * 80 + MARGIN_LEFT), float(position.y * 80 + MARGIN_TOP));
 }
 
-bool Piece::isCharacter() const
-{
-	if ((int)type_ < 3)
-		return true;
-	return false;
-}
-bool Piece::isMachine() const
-{
-	return !isCharacter();
-}
 bool Piece::checkSpace(int x, int y) const
 {
 	return checkSpace(sf::Vector2i(x, y));
@@ -50,7 +40,7 @@ bool Piece::checkSpace(sf::Vector2i position) const
 		return true;
 	return false;
 }
-bool Piece::alive() const
+bool Piece::isAlive() const
 {
 	if (position_.x >= 0 && position_.x < BOARD_WIDTH &&
 		position_.y >= 0 && position_.y < BOARD_HEIGHT)
@@ -66,12 +56,10 @@ pieceType Piece::getPieceType() const
 {
 	return type_;
 }
-
 sf::Vector2i Piece::getPositionOnBoard() const
 {
 	return position_;
 }
-
 
 void Piece::moveOnBoard(direction d)
 {
@@ -107,9 +95,14 @@ void Piece::moveOnBoard(int x, int y)
 {
 	setPositionOnBoard(position_.x + x, position_.y + y);
 }
+void Piece::jump(direction d)
+{
+	moveOnBoard(d);
+	moveOnBoard(d);
+}
 
 Piece::Piece(sf::Texture& texture, int player, pieceType type, int x, int y)
-	:sf::Sprite(texture)
+	:SpritePlus(texture)
 {
 	player_ = player;
 	type_ = type;
@@ -117,7 +110,7 @@ Piece::Piece(sf::Texture& texture, int player, pieceType type, int x, int y)
 	findTexture();
 }
 Piece::Piece(sf::Texture& texture, int player, pieceType type, sf::Vector2i position)
-	:sf::Sprite(texture)
+	:SpritePlus(texture)
 {
 	player_ = player;
 	type_ = type;
@@ -125,7 +118,7 @@ Piece::Piece(sf::Texture& texture, int player, pieceType type, sf::Vector2i posi
 	findTexture();
 }
 Piece::Piece(sf::Texture& texture)
-	:sf::Sprite(texture)
+	:SpritePlus(texture)
 {
 	player_ = 0;
 	type_ = SOLDIER;
@@ -136,11 +129,6 @@ Piece::Piece(sf::Texture& texture)
 void Piece::findTexture()
 {
 	setTextureRect(sf::IntRect(0,0,80,80));
+	SpritePlus::setFrameSize(sf::Vector2i(60,60));
 	setFrame(type_, player_ -1);
-}
-void Piece::setFrame(int x, int y)
-{
-	int width = getTextureRect().width;
-	int height = getTextureRect().height;
-	setTextureRect(sf::IntRect(x * width, y * height, width, height));
 }

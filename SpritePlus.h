@@ -11,6 +11,7 @@ public:
 	void moveFrame(float dx, float dy);
 	
 	void setFrameSize(sf::Vector2i size);
+	void setFrameSize(sf::Vector2f size);
 	void setFrame(sf::Vector2f position);
 	void moveFrame(sf::Vector2f move);
 	
